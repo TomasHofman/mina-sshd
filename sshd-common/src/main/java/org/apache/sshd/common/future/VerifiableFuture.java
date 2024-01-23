@@ -45,6 +45,10 @@ public interface VerifiableFuture<T> {
         return verify(Long.MAX_VALUE, options);
     }
 
+    default T verify() throws IOException {
+        return verify(Long.MAX_VALUE);
+    }
+
     /**
      * Wait and verify that the operation was successful
      *
@@ -60,6 +64,10 @@ public interface VerifiableFuture<T> {
         return verify(unit.toMillis(timeout), options);
     }
 
+    default T verify(long timeout, TimeUnit unit) throws IOException {
+        return verify(unit.toMillis(timeout));
+    }
+
     /**
      * Wait and verify that the operation was successful
      *
@@ -72,6 +80,10 @@ public interface VerifiableFuture<T> {
      */
     default T verify(Duration timeout, CancelOption... options) throws IOException {
         return timeout != null ? verify(timeout.toMillis(), options) : verify(options);
+    }
+
+    default T verify(Duration timeout) throws IOException {
+        return timeout != null ? verify(timeout.toMillis()) : verify();
     }
 
     /**
